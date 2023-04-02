@@ -4,6 +4,7 @@ import pygame
 import pygame
 
 class Decor:
+    "Décor du jeu"
     def __init__(self, image, width, height):
         self.image = pygame.image.load(image)
         self.image = pygame.transform.scale(self.image, (width, height))
