@@ -4,8 +4,9 @@ import pygame # Importation du module pygame
 from decor import *
 from joueur import *
 from voiture import *
-from time import sleep
 from random import randrange
+import time
+
 
 
 pygame.init() # Initialisation du module pygame
@@ -41,10 +42,15 @@ is_running = True # Le jeu est-il en cours d'exécution ?
 voitures = pygame.sprite.Group()  # Créer un groupe pour stocker les voitures
 voitures.add(Voiture(image_voiture, 75, 75))
 
+temps_dernier_passage_voiture = time.time()  # Temps écoulé depuis le dernier passage d'une voiture
+
+game_over = False
+
+
+
 
 while is_running: # Tant que le jeu est exécuté
-
-
+   
    
     
     for evenement in pygame.event.get():
@@ -62,11 +68,21 @@ while is_running: # Tant que le jeu est exécuté
     decor.draw(screen)
     screen.blit(joueur.image, joueur.rect)
 
+    current_time = time.time()
+
     for voiture in voitures:
+        pygame.time.wait(100)
+        Voiture.add(Voiture(image_voiture, 75, 75))
+
+        if voiture.rect.right < 0:
+            voitures.remove(voiture)
+            pygame.time.wait(100)
+            voitures.add(Voiture(image_voiture, 75, 75))        
+
         if joueur.rect.colliderect(voiture.rect):
             print("Le joueur est entré en collision avec une voiture")
             joueur.vies -= 1
-            print(joueur.vies)
+            print(joueur.vies, "vies restantes")
         
            
 
@@ -76,14 +92,12 @@ while is_running: # Tant que le jeu est exécuté
         voiture.draw(screen)
         # voiture.supprimer()
 
-        if voiture.rect.right < 0:
-            voitures.remove(voiture)
-            voitures.add(Voiture(image_voiture, 75, 75))
+        
 
 
-        if joueur.vies <= 0:
-            pygame.quit()
-            print("Vous êtes mort(e) !")     
+        if joueur.vies <= 0:  # Si le nombre de points de vie restants est inférieur ou égal à zéro
+            pygame.quit()   # Quitter Pygame
+            print("Vous êtes mort(e) !")    # Afficher un message de game over 
 
 
 

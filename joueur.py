@@ -22,7 +22,7 @@ class Joueur(pygame.sprite.Sprite):
 
     def jouer_son_saut(self):
         "Jouer le son de saut du joueur"
-        self.jump_sound.play() 
+        self.jump_sound.play(maxtime= 100) 
         clock = pygame.time.Clock()
         while pygame.mixer.get_busy():
             clock.tick(10)
@@ -32,6 +32,7 @@ class Joueur(pygame.sprite.Sprite):
 
 
         if key[pygame.K_UP]: 
+            pygame.time.wait(2)
             self.y -= 40
             
 
@@ -45,6 +46,7 @@ class Joueur(pygame.sprite.Sprite):
 
 
         if key[pygame.K_DOWN]:
+            pygame.time.wait(2)
             self.y += 40
            # print("y :", self.y)
            # print(self.y)
@@ -54,14 +56,16 @@ class Joueur(pygame.sprite.Sprite):
            # sleep(0.01)
 
         if key[pygame.K_LEFT]:
+            pygame.time.wait(2)
             self.x -= 40
-            print("x :", self.x)
-            print(self.x)
+           # print("x :", self.x)
+           # print(self.x)
             self.jouer_son_saut()
 
             #sleep(0.01)
 
         if key[pygame.K_RIGHT]:
+            pygame.time.wait(2)
             self.x += 40
 
            # print("x :", self.x)
