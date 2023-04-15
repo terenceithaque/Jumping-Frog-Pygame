@@ -28,6 +28,7 @@ pygame.mixer.music.load(chemin_musique_jeu)
 pygame.mixer.music.play(-1)  # Jouer la musique principale du jeu
 
 
+
 image_joueur = "assets/joueur/joueur.png"
 son_saut_joueur = "assets/sons_et_musiques/saut_joueur.mp3"
 joueur = Joueur(image_joueur, 50, 50, son_saut_joueur)
@@ -60,13 +61,14 @@ while is_running: # Tant que le jeu est exécuté
     touche_pressee = pygame.key.get_pressed()   # Verifier la touche pressée
 
     joueur.mettre_a_jour_position(touche_pressee)
-
+    joueur.draw(screen)
+    #joueur.afficher_pourcent_vie(screen) # Afficher le pourcentage de vies du joueur
     
      
     # Dessiner les objets du jeu
     screen.fill((255,255,255))
     decor.draw(screen)
-    screen.blit(joueur.image, joueur.rect)
+    screen.blit(joueur.image, joueur.rect, joueur.afficher_pourcent_vie(screen))
 
     current_time = time.time()
 
@@ -81,8 +83,10 @@ while is_running: # Tant que le jeu est exécuté
 
         if joueur.rect.colliderect(voiture.rect):
             print("Le joueur est entré en collision avec une voiture")
-            joueur.vies -= 1
+            joueur.perdre_vie(1, screen) # Réduire la vie du joueur à chaque fois qu'il entre en collision avec une voiture
             print(joueur.vies, "vies restantes")
+            joueur.score -= 10 # Réduire le score actuel du joueur
+            print(joueur.score)
         
            
 
@@ -96,16 +100,22 @@ while is_running: # Tant que le jeu est exécuté
 
 
         if joueur.vies <= 0:  # Si le nombre de points de vie restants est inférieur ou égal à zéro
-            pygame.quit()   # Quitter Pygame
-            print("Vous êtes mort(e) !")    # Afficher un message de game over 
 
+           joueur.kill()
+           joueur.game_over(screen) # Afficher le message de game over
+   
+           
+           is_running  = False
+           
 
 
    
+        if is_running:
+
+            # Mettre à jour l'écran
+            pygame.display.flip()    
 
 
-    # Mettre à jour l'écran
-    pygame.display.flip()    
+pygame.mixer.quit()            
 
 
-pygame.mixer.music.stop()        
