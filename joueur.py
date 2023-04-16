@@ -20,6 +20,7 @@ class Joueur(pygame.sprite.Sprite):
         self.max_vies = 3 # Nombre de vies maximales du joueur
         self.font = pygame.font.Font(None, 36)
         self.game_over_font = pygame.font.Font(None, 36)
+        self.score_font = pygame.font.Font(None, 36)
     
         self.x = 320# Position x du joueur
         self.y = 420 # Position y du joueur
@@ -152,6 +153,16 @@ class Joueur(pygame.sprite.Sprite):
            # finally:
              #    messagebox.showwarning("Fermeture en raison d'erreur critique", "Le jeu va être fermé en raison de la détection d'une erreur critique. Le score actuel sera perdu lors de la fermeture du jeu.")
               #   pygame.quit() # Fermer Pygame
+
+
+    def getScore(self):
+        "Récuperer le score sauvegardé"
+        rf = open(self.score_filename, "r") # Lire le fichier score.txt. rf = read file
+        if os.path.getsize(self.score_filename) > 0: # Si la taille du fichier score.txt est supérieure à 0 octets
+            score_trouve = int(rf.readline()) # Convertir le score trouvé dans le fichier score.txt en un nombre entier
+            print("Score trouvé :", score_trouve)
+
+
 
 
     

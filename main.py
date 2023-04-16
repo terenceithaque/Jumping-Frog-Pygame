@@ -32,6 +32,7 @@ pygame.mixer.music.play(-1)  # Jouer la musique principale du jeu
 image_joueur = "assets/joueur/joueur.png"
 son_saut_joueur = "assets/sons_et_musiques/saut_joueur.mp3"
 joueur = Joueur(image_joueur, 50, 50, son_saut_joueur)
+joueur.getScore()  # Obtenir le score enregistré dans le fichier score.txt
 
 image_voiture = "assets/images/voiture.png" # Chemin vers l'image de la voiture
 
