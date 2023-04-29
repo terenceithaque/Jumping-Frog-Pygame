@@ -23,7 +23,9 @@ class Joueur(pygame.sprite.Sprite):
         self.score_font = pygame.font.Font(None, 36)
     
         self.x = 320# Position x du joueur
+        print(self.x)
         self.y = 420 # Position y du joueur
+        print(self.y)
 
         self.score = 0 # Score du joueurs
 
@@ -71,9 +73,9 @@ class Joueur(pygame.sprite.Sprite):
             self.y -= 40
             
 
-           # print("y :", self.y)
+            print("y :", self.y)
                 
-            #print(self.y)
+           # print(self.y)
             self.jouer_son_saut()
         
 
@@ -83,7 +85,7 @@ class Joueur(pygame.sprite.Sprite):
         if key[pygame.K_DOWN]:
             pygame.time.wait(2)
             self.y += 40
-           # print("y :", self.y)
+            print("y :", self.y)
            # print(self.y)
 
             self.jouer_son_saut()
@@ -93,8 +95,8 @@ class Joueur(pygame.sprite.Sprite):
         if key[pygame.K_LEFT]:
             pygame.time.wait(2)
             self.x -= 40
-           # print("x :", self.x)
-           # print(self.x)
+            print("x :", self.x)
+            #print(self.x)
             self.jouer_son_saut()
 
             #sleep(0.01)
@@ -103,8 +105,8 @@ class Joueur(pygame.sprite.Sprite):
             pygame.time.wait(2)
             self.x += 40
 
-           # print("x :", self.x)
-           # print(self.x)
+            print("x :", self.x)
+            #print(self.x)
             self.jouer_son_saut()
 
             #sleep(0.01)
@@ -125,6 +127,8 @@ class Joueur(pygame.sprite.Sprite):
                     wf.write(str(self.score))  # Ecrire le score de la partie dans le fichier score.txt
                     wf.close()
 
+                return self.score        
+
             except IOError:
                  messagebox.showerror("Erreur d'écriture du score", "Le nouveau score n'a pas pu être écrit correctement.")
 
@@ -141,6 +145,8 @@ class Joueur(pygame.sprite.Sprite):
                with open(self.score_filename, "w") as wf:  
                     wf.write(str(self.best_score)) # Ecrire le meilleur score dans score.txt
                     wf.close()
+
+               return self.best_score     
 
 
             except IOError:
@@ -164,6 +170,20 @@ class Joueur(pygame.sprite.Sprite):
 
 
 
+    def displayScore(self, screen):
+        "Afficher le score du joueur"
+        score = "Score actuel : {}".format(self.score)
+        self.afficher_score = self.score_font.render(score, True, (255, 255, 255))
+        print(self.afficher_score)
+        screen.blit(self.afficher_score, (350, 350))        
+            
+
+
+
+
+
+
+
 
     
     def game_over(self, screen):
@@ -178,13 +198,20 @@ class Joueur(pygame.sprite.Sprite):
        self.saveScore()
 
 
+    def reinitialiserPositions(self):
+        "Réinitialiser les positions x et y de départ du joueur"
+        self.rect.x = 320
+        self.rect.y = 420 
+
+
 
                             
             
     
 
     def draw(self, screen):
-        screen.blit(self.image, (self.x, self.y))        
+        screen.blit(self.image, (self.x, self.y))
+                
 
 
 

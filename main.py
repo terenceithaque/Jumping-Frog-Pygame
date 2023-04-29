@@ -1,16 +1,19 @@
 # Programme principal du jeu
 
 import pygame # Importation du module pygame
+pygame.init() # Initialisation du module pygame
+pygame.mixer.init()
+pygame.display.init()
+
 from decor import *
 from joueur import *
 from voiture import *
+from balle import *
 from random import randrange
 import time
 
 
 
-pygame.init() # Initialisation du module pygame
-pygame.mixer.init()
 
 screen = pygame.display.set_mode((800,600))
 pygame.display.set_caption("Jumping Frog en Python")
@@ -25,7 +28,11 @@ decor = Decor(image_decor, decor_x, decor_y)
 chemin_musique_jeu = "assets/sons_et_musiques/Michael Jackson - Thriller - Thriller [ZEHsIcsjtdI].webm.mp3" # Chemin vers la musique du jeu
 
 pygame.mixer.music.load(chemin_musique_jeu)
+
+
 pygame.mixer.music.play(-1)  # Jouer la musique principale du jeu
+
+    
 
 
 
@@ -33,6 +40,8 @@ image_joueur = "assets/joueur/joueur.png"
 son_saut_joueur = "assets/sons_et_musiques/saut_joueur.mp3"
 joueur = Joueur(image_joueur, 50, 50, son_saut_joueur)
 joueur.getScore()  # Obtenir le score enregistré dans le fichier score.txt
+joueur.displayScore(screen)
+
 
 image_voiture = "assets/images/voiture.png" # Chemin vers l'image de la voiture
 
@@ -49,6 +58,11 @@ temps_dernier_passage_voiture = time.time()  # Temps écoulé depuis le dernier 
 game_over = False
 
 
+balles = pygame.sprite.Group()  # Créer un groupe pour stocker toutes les balles que le joueur doit attraper
+image_balle = "assets/images/ball.png"
+balles.add(Balle(image_balle, 25, 25))
+
+
 
 
 while is_running: # Tant que le jeu est exécuté
@@ -58,11 +72,16 @@ while is_running: # Tant que le jeu est exécuté
     for evenement in pygame.event.get():
         if evenement == pygame.QUIT:
             is_running = False
+            exit()
 
     touche_pressee = pygame.key.get_pressed()   # Verifier la touche pressée
+    
+
 
     joueur.mettre_a_jour_position(touche_pressee)
     joueur.draw(screen)
+
+     
     #joueur.afficher_pourcent_vie(screen) # Afficher le pourcentage de vies du joueur
     
      
@@ -88,14 +107,45 @@ while is_running: # Tant que le jeu est exécuté
             print(joueur.vies, "vies restantes")
             joueur.score -= 10 # Réduire le score actuel du joueur
             print(joueur.score)
+
+
+         
         
            
 
-            joueur.x = 320  # Repositionner le joueur à sa position initiale
-            joueur.y = 420
+            joueur.reinitialiserPositions() # Réinitialiser les positions x et y du joueur
+            joueur.draw(screen)
         voiture.avancer()
         voiture.draw(screen)
         # voiture.supprimer()
+
+    for balle in balles:  # Pour chaque balle du jeu
+        
+        balle.draw(screen)  # Dessiner chaque balle à l'écran
+        if joueur.rect.colliderect(balle.rect):# Si le joueur attrape la balle
+            #print("True")
+            balle.supprimer()  # Supprimer la balle du jeu
+            joueur.score += 15
+            print("score :", joueur.score)     
+        
+            joueur.reinitialiserPositions() # Réinitialiser les positions x et y du joueur
+            joueur.draw(screen)
+
+
+            balles.add(Balle(image_balle, 25, 25))        
+        
+           # balle.draw(screen)
+            #pygame.display.flip()
+
+            #pygame.quit()
+          
+        
+
+        #else:
+          # print("False")
+
+        
+
 
         
 
