@@ -200,8 +200,8 @@ class Joueur(pygame.sprite.Sprite):
 
     def reinitialiserPositions(self):
         "Réinitialiser les positions x et y de départ du joueur"
-        self.rect.x = 320
-        self.rect.y = 420 
+        self.x = 320
+        self.y = 420 
 
 
 
