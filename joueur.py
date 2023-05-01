@@ -21,6 +21,7 @@ class Joueur(pygame.sprite.Sprite):
         self.font = pygame.font.Font(None, 36)
         self.game_over_font = pygame.font.Font(None, 36)
         self.score_font = pygame.font.Font(None, 36)
+        self.best_score_font = pygame.font.Font(None, 36)
     
         self.x = 320# Position x du joueur
         print(self.x)
@@ -166,16 +167,35 @@ class Joueur(pygame.sprite.Sprite):
         rf = open(self.score_filename, "r") # Lire le fichier score.txt. rf = read file
         if os.path.getsize(self.score_filename) > 0: # Si la taille du fichier score.txt est supérieure à 0 octets
             score_trouve = int(rf.readline()) # Convertir le score trouvé dans le fichier score.txt en un nombre entier
-            print("Score trouvé :", score_trouve)
+            #print("Score trouvé :", score_trouve)
+            return score_trouve
+
+
+
+    def checkScore(self):
+        "Vérifier le score du joueur"
+        if self.score > self.best_score:
+            self.best_score = self.score
+            print("Meilleur score :", self.best_score)
+        
+        return self.best_score
+
 
 
 
     def displayScore(self, screen):
         "Afficher le score du joueur"
-        score = "Score actuel : {}".format(self.score)
-        self.afficher_score = self.score_font.render(score, True, (255, 255, 255))
-        print(self.afficher_score)
-        screen.blit(self.afficher_score, (350, 350))        
+        score = "Score : {}".format(str(self.score))
+        self.afficher_score = self.score_font.render(score, True, (200, 200, 200))
+        #print(self.afficher_score)
+        screen.blit(self.afficher_score, (0, 20))
+        if self.checkScore() >= self.getScore():  
+            meilleur_score = "Meilleur score : {}".format(str(self.checkScore()))
+            print("Meilleur score :", meilleur_score)
+            self.afficher_meilleur_score = self.best_score_font.render(meilleur_score, True, (150, 150, 150))
+            screen.blit(self.afficher_meilleur_score, (0, 60))
+
+
             
 
 
