@@ -17,6 +17,7 @@ class Voiture(pygame.sprite.Sprite):
         self.rect.y = 220 # Position y de la voiture
         #print(self.rect.y)
         #print(self.temps_dernier_passage)
+        
 
 
     def supprimer(self):

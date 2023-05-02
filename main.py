@@ -9,7 +9,7 @@ from decor import *
 from joueur import *
 from voiture import *
 from balle import *
-from random import randrange
+from random import randrange, randint
 import time
 
 
@@ -67,6 +67,8 @@ balles.add(Balle(image_balle, 25, 25))
 
 
 
+
+
 while is_running: # Tant que le jeu est exécuté
 
 
@@ -108,9 +110,10 @@ while is_running: # Tant que le jeu est exécuté
 
         if joueur.rect.colliderect(voiture.rect):
             print("Le joueur est entré en collision avec une voiture")
-            joueur.perdre_vie(1, screen) # Réduire la vie du joueur à chaque fois qu'il entre en collision avec une voiture
+            
+            joueur.perdre_vie(screen) # Réduire la vie du joueur à chaque fois qu'il entre en collision avec une voiture
             print(joueur.vies, "vies restantes")
-            joueur.score -= 10 # Réduire le score actuel du joueur
+            joueur.score -= 15 # Réduire le score actuel du joueur
             print(joueur.score)
             joueur.checkScore() # Vérifier si le score actuel du joueur est supérieur au meilleur score
 

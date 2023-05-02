@@ -3,7 +3,7 @@ from tkinter import messagebox
 import pygame # Importation de pygame
 import os # Importer les fonctions du système d'exploitation de l'ordinateur du joueur
 pygame.mixer.init() # Initialiser le module son de pygame
-
+from random import randint
 #from time import sleep  # Importation la fonction sleep du module time afin de ralentir les déplacements du joueur
 
 
@@ -16,12 +16,14 @@ class Joueur(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         print(self.image)
         self.jump_sound = pygame.mixer.Sound(jump_sound)  # Son joué lors des déplacements du joueur
-        self.vies = 3  # Nombre de points de vie  du joueur
-        self.max_vies = 3 # Nombre de vies maximales du joueur
+        self.vies = 5 # Nombre de points de vie  du joueur
+        self.max_vies = 5 # Nombre de vies maximales du joueur
         self.font = pygame.font.Font(None, 36)
         self.game_over_font = pygame.font.Font(None, 36)
         self.score_font = pygame.font.Font(None, 36)
         self.best_score_font = pygame.font.Font(None, 36)
+        self.degats = randint(1, 3) # Choisir un nombre variable de points de dégats qui peuvent être subis par le joueur
+        #print(self.degats)
     
         self.x = 320# Position x du joueur
         print(self.x)
@@ -39,9 +41,9 @@ class Joueur(pygame.sprite.Sprite):
    
 
 
-    def perdre_vie(self, degats, screen):
+    def perdre_vie(self, screen):
         "Faire prendre des dégats au joueur"
-        self.vies -= degats
+        self.vies -= self.degats
         self.afficher_pourcent_vie(screen)
 
 
@@ -191,7 +193,7 @@ class Joueur(pygame.sprite.Sprite):
         screen.blit(self.afficher_score, (0, 20))
         if self.checkScore() >= self.getScore():  
             meilleur_score = "Meilleur score : {}".format(str(self.checkScore()))
-            print("Meilleur score :", meilleur_score)
+            #print("Meilleur score :", meilleur_score)
             self.afficher_meilleur_score = self.best_score_font.render(meilleur_score, True, (150, 150, 150))
             screen.blit(self.afficher_meilleur_score, (0, 60))
 
