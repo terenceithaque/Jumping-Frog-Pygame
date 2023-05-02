@@ -19,7 +19,7 @@ class Joueur(pygame.sprite.Sprite):
         self.vies = 5 # Nombre de points de vie  du joueur
         self.max_vies = 5 # Nombre de vies maximales du joueur
         self.font = pygame.font.Font(None, 36)
-        self.game_over_font = pygame.font.Font(None, 36)
+        self.game_over_font = pygame.font.Font(None, 30)
         self.score_font = pygame.font.Font(None, 36)
         self.best_score_font = pygame.font.Font(None, 36)
         self.degats = randint(1, 3) # Choisir un nombre variable de points de dégats qui peuvent être subis par le joueur
@@ -211,13 +211,16 @@ class Joueur(pygame.sprite.Sprite):
     def game_over(self, screen):
        "Terminer la partie dès que le joueur a perdu"
         
-       game_over_text = "Vous êtes mort(e) ! Score réalisé {}".format(self.score)
+       game_over_text = "Vous êtes mort(e) ! Score réalisé :  {}".format(self.score)
 
-       self.display_game_over_text = self.game_over_font.render(game_over_text, True, (255, 255, 255))
+       self.display_game_over_text = self.game_over_font.render(game_over_text, True, (252, 84, 84))
 
        screen.blit(self.display_game_over_text, (400, 400))
 
        self.saveScore()
+
+
+
 
 
     def reinitialiserPositions(self):

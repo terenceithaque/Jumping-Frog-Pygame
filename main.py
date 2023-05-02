@@ -11,6 +11,7 @@ from voiture import *
 from balle import *
 from random import randrange, randint
 import time
+from threading import Timer
 
 
 
@@ -162,11 +163,22 @@ while is_running: # Tant que le jeu est exécuté
 
 
         if joueur.vies <= 0:  # Si le nombre de points de vie restants est inférieur ou égal à zéro
+           
+
+           joueur.afficher_pourcent_vie(screen)
+           joueur.reinitialiserPositions()
+
 
            joueur.kill()
-           joueur.game_over(screen) # Afficher le message de game over
-   
+          
+
+           game_over_message_time = Timer(5.0, joueur.game_over(screen))   # Afficher le message de game over pendant 5 secondes
+           game_over_message_time.start()
+
+
            
+           pygame.display.flip()
+   
            is_running  = False
            
 
