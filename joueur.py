@@ -22,6 +22,7 @@ class Joueur(pygame.sprite.Sprite):
         self.game_over_font = pygame.font.Font(None, 30)
         self.score_font = pygame.font.Font(None, 36)
         self.best_score_font = pygame.font.Font(None, 36)
+        self.win_font = pygame.font.Font(None, 20)
         self.degats = randint(1, 3) # Choisir un nombre variable de points de dégats qui peuvent être subis par le joueur
         #print(self.degats)
     
@@ -35,6 +36,10 @@ class Joueur(pygame.sprite.Sprite):
         self.best_score = self.score # Score maximum du joueur
 
         self.score_filename = "score.txt"  # Ouvrir le fichier score.txt afin d'y des modifications
+
+        self.balles_a_attraper = randint(10, 20) # Choisir le nombre de balles que le joueur doit attraper durant la partie
+        self.balles_attrapees = 0 # Nombre de balles que le joueur a attrapé
+        self.balles_attrapees_font = pygame.font.Font(None, 36)
 
    
     
@@ -198,7 +203,27 @@ class Joueur(pygame.sprite.Sprite):
             screen.blit(self.afficher_meilleur_score, (0, 60))
 
 
-            
+    def augmenterBallesAttrapees(self):
+        "Augmenter le nombre de balles attrapées par le joueur"
+        self.balles_attrapees += 1
+        print("Balles atrapées :", self.balles_attrapees) 
+        return self.balles_attrapees
+
+
+    def afficherBallesAttrapees(self, screen):
+        "Afficher le nombre de balles attrapées"
+        balles_atrapees = "Balles atrapées : {} / {}".format(self.balles_attrapees, self.balles_a_attraper)
+        self.afficher_balles_attrapees = self.balles_attrapees_font.render(balles_atrapees, True,(230, 230, 230))
+        screen.blit(self.afficher_balles_attrapees, (0, 100))   
+
+
+    def win(self, screen):
+        "Le joueur gagne"
+        win_text = "Vous avez gagné(e) ! Score réalisé : {}. Meilleur score : {}".format(self.score, self.best_score)   # Le texte qui s'affiche lorsque le joueur gagne
+        self.display_win_text = self.win_font.render(win_text, True, (37, 236, 143))
+        screen.blit(self.display_win_text, (400, 400))
+
+        self.saveScore() # Sauvegarder le score de la partie
 
 
 
@@ -217,7 +242,7 @@ class Joueur(pygame.sprite.Sprite):
 
        screen.blit(self.display_game_over_text, (400, 400))
 
-       self.saveScore()
+       self.saveScore() # Sauvegarder le score de la partie
 
 
 

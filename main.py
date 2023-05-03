@@ -138,10 +138,21 @@ while is_running: # Tant que le jeu est exécuté
             balle.supprimer()  # Supprimer la balle du jeu
             joueur.score += 15
             print("score :", joueur.score)
-            joueur.checkScore()     
-        
+            joueur.checkScore()    
             joueur.reinitialiserPositions() # Réinitialiser les positions x et y du joueur
             joueur.draw(screen)
+            #joueur.augmenterBallesAttrapees()
+
+
+
+            if joueur.augmenterBallesAttrapees() == joueur.balles_a_attraper: # Si le nombre de balles attrapées est égal au nombre de balles à attraper
+                win_message_time = Timer(5.0, joueur.win(screen)) # Afficher le message de victoire pendant 5 secondes
+                win_message_time.start() # Démarrer le timer
+
+                pygame.display.flip()  # Mettre à jour l'écran
+
+                is_running = False # Terminer l'exécution du jeu             
+           
 
 
             balles.add(Balle(image_balle, 25, 25))        
@@ -184,6 +195,7 @@ while is_running: # Tant que le jeu est exécuté
 
 
         joueur.displayScore(screen)
+        joueur.afficherBallesAttrapees(screen)
 
         if is_running:
 

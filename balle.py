@@ -16,6 +16,8 @@ class Balle(pygame.sprite.Sprite):
         print(self.rect.x)
         self.rect.y = randrange(0, 80, step=40)
         print(self.rect.y)
+
+
         
 
 
