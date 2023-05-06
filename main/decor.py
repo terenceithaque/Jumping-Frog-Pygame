@@ -1,7 +1,6 @@
 # Décor du jeu
 import pygame
 
-import pygame
 
 class Decor:
     "Décor du jeu"
@@ -11,8 +10,6 @@ class Decor:
         self.x = 0
         self.y = 0
 
-    def draw(self, screen):
-        screen.blit(self.image, (self.x, self.y))
 
 
   
